@@ -13,12 +13,14 @@ AWESOMENESS = [
     'oh-so-not-meh', 'brilliant', 'ducky', 'coolio', 'incredible',
     'wonderful', 'smashing', 'lovely']
 
-
 @app.route('/')
 def start_here():
     """Home page."""
 
-    return "<!doctype html><html>Hi! This is the home page.</html>"
+
+    return """<!doctype html>
+              <html>Hi! This is the home page. <br/>
+                <a href="/hello">Introduce</a></html>"""
 
 
 @app.route('/hello')
@@ -33,14 +35,36 @@ def say_hello():
       </head>
       <body>
         <h1>Hi There!</h1>
+        <h2>For a compliment complete the form below:</h2>
         <form action="/greet">
           What's your name? <input type="text" name="person">
+          <br/>
+          <label for="compliment">Choose a compliment:</label>
+          <select name="compliment" value="compliment">
+            <option value="awesome">awesome</option>
+            <option value="terrific">terrific</option>
+            <option value="fantastic">fantastic</option>
+          </select>
+          <br/>
+          <input type="submit" value="Submit">
+        </form>
+        <br/>
+        <h2>Or, for a diss complete the form below:</h2>
+        <form action="/diss">
+          What's your name? <input type="text" name="person">
+          <br/>
+          <label for="diss">Choose a diss:</label>
+          <select name="diss" value="diss">
+            <option value="not awesome">not awesome</option>
+            <option value="not terrific">not terrific</option>
+            <option value="not fantastic">not fantastic</option>
+          </select>
+          <br/>
           <input type="submit" value="Submit">
         </form>
       </body>
     </html>
     """
-
 
 @app.route('/greet')
 def greet_person():
@@ -48,7 +72,8 @@ def greet_person():
 
     player = request.args.get("person")
 
-    compliment = choice(AWESOMENESS)
+    # compliment = choice(AWESOMENESS)
+    compliment = request.args.get("compliment")
 
     return f"""
     <!doctype html>
@@ -57,11 +82,29 @@ def greet_person():
         <title>A Compliment</title>
       </head>
       <body>
-        Hi, {player}! I think you're {compliment}!
+        Hi, {player}! I think you're {compliment} 😇!
       </body>
     </html>
     """
 
+@app.route('/diss')
+def diss_person():
+    """Get user by name."""
+
+    player = request.args.get("person")
+    diss = request.args.get("diss")
+
+    return f"""
+    <!doctype html>
+    <html>
+      <head>
+        <title>A Diss</title>
+      </head>
+      <body>
+        Hi, {player}! I think you're {diss} 😈!
+      </body>
+    </html>
+    """
 
 if __name__ == '__main__':
     # debug=True gives us error messages in the browser and also "reloads"
