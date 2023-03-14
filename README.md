@@ -1,1 +1,1 @@
-Pair programming exercise for Hackbright Academy; coded with Rajee Chezhiyan
+Pair programming exercise for Hackbright Academy; coded with Rajee Chezhiyan.
